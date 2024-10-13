@@ -20,16 +20,26 @@ ssh root@ssh.openbayes.com -p 30773 -L 53290:0.0.0.0:53290 -R 20001:0.0.0.0:2000
 
 > Make sure to update the port "30773" to your port
 
-## Once your in the cloud
+## Installation
 
 ```bash
 # if not already present
-# git clone https://github.com/dora-rs/gosim-2024
-# cd gosim-2024
+git clone https://github.com/dora-rs/gosim-2024
+cd gosim-2024
+curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/dora-rs/dora/main/install.sh | bash -s -- --tag v0.3.7rc0
+
+source ~/.bashrc
+dora build qwenvl2_recorder.yml
+```
+
+## Usage
+
+```bash
 
 cd gosim-2024
-./scripts/setup_cloud.sh
 # Do it once
-dora build qwenvl2_recorder.yml
+
+./scripts/setup_cloud.sh
+
 dora start qwenvl2_recorder.yml
 ```
