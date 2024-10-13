@@ -18,6 +18,8 @@ nodes:
       keyboard: keyboard-listener/char
     outputs:
       - text
+    env:
+      DISPLAY: :0
 
   - id: camera1 # Run on car
     build: pip install opencv-video-capture
@@ -45,8 +47,8 @@ nodes:
 
   - id: plot
     build: |
-      wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/rerun # cargo install rerun@0.18.2 --locked
-      wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/dora-rerun # cargo install dora-rerun@0.3.6 --locked
+      wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/rerun
+      wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/dora-rerun
     path: dora-rerun
     inputs:
       image_1:
