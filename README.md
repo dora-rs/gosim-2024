@@ -7,9 +7,9 @@ Repository for managing the GOSIM Hackathon 2024
 Get the installation script either from 192.168.3.5
 
 ```bash
-wget 192.168.3.5:8000/install_default.sh
-chmod +x install_default.sh
-./install_default.sh
+wget 192.168.3.5:8000/install_orangegi.sh
+chmod +x install_orangegi.sh
+./install_orangegi.sh
 ```
 
 ## Then connecct to the cloud from the Orange Pi
