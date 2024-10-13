@@ -1,0 +1,95 @@
+nodes:
+  - id: mickrobot_chassis # Run on car
+    build: cargo install --git https://github.com/lyon-dora/chongyou-car
+    path: chongyou-car
+    inputs:
+      text: dora-qwenvl-recorder/text
+
+  - id: keyboard-listener # Run on car
+    build: pip install dora-keyboard
+    path: dora-keyboard
+    outputs:
+      - char
+
+  - id: key-interpolation
+    build: wget https://raw.githubusercontent.com/lyon-dora/dora_mickrobot/refs/heads/main/key_interpolation.py
+    path: key_interpolation.py
+    inputs:
+      keyboard: keyboard-listener/char
+    outputs:
+      - text
+
+  - id: text-interpolation
+    build: wget https://raw.githubusercontent.com/lyon-dora/dora_mickrobot/refs/heads/main/text_interpolation.py
+    path: text_interpolation.py
+    inputs:
+      text: key-interpolation/text
+    outputs:
+      - CmdVelTwist
+
+  - id: camera1
+    build: pip install opencv-video-capture==0.3.7rc0
+    path: opencv-video-capture
+    inputs:
+      tick: dora/timer/millis/16
+    outputs:
+      - image
+    env:
+      CAPTURE_PATH: 0
+      IMAGE_WIDTH: 640
+      IMAGE_HEIGHT: 480
+
+  - id: camera2
+    build: pip install opencv-video-capture==0.3.7rc0
+    path: opencv-video-capture
+    inputs:
+      tick: dora/timer/millis/16
+    outputs:
+      - image
+    env:
+      CAPTURE_PATH: 2
+      IMAGE_WIDTH: 640
+      IMAGE_HEIGHT: 480
+
+  # - id: plot
+  #   operator:
+  #     python: plot_image_only.py
+  #     inputs:
+  #       image: camera/image
+
+  - id: plot
+    build: |
+      cargo install --force rerun-cli@0.15.1
+      cargo install dora-rerun --locked
+    path: dora-rerun
+    inputs:
+      image_1:
+        source: camera1/image
+        queue_size: 1
+      image_2:
+        source: camera2/image
+        queue_size: 1
+      textlog_vlm: dora-qwenvl-recorder/text
+    env:
+      IMAGE_WIDTH: 640
+      IMAGE_HEIGHT: 480
+      RERUN_MEMORY_LIMIT: 25%
+
+  - id: dora-qwenvl-recorder
+    build: |
+      git clone https://github.com/hiyouga/LLaMA-Factory $HOME/LLaMA-Factory
+      pip install llama-factory-recorder
+    path: llama-factory-recorder
+    inputs:
+      image_1:
+        source: camera1/image
+        queue_size: 1
+      image_2:
+        source: camera2/image
+        queue_size: 1
+      ground_truth: key-interpolation/text
+    outputs:
+      - text
+    env:
+      DEFAULT_QUESTION: Respond with right, left, forward, backward,stop to move to the red line
+      LLAMA_FACTORY_ROOT_PATH: $HOME/LLaMA-Factory
