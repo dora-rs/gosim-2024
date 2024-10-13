@@ -1,6 +1,6 @@
 nodes:
   - id: mickrobot_chassis # Run on car
-    build: cargo install --git https://github.com/lyon-dora/chongyou-car
+    build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
     path: chongyou-car
     inputs:
       text: dora-qwenvl-recorder/text
@@ -12,23 +12,15 @@ nodes:
       - char
 
   - id: key-interpolation
-    build: wget https://raw.githubusercontent.com/lyon-dora/dora_mickrobot/refs/heads/main/key_interpolation.py
+    build: wget -nc https://raw.githubusercontent.com/lyon-dora/dora_mickrobot/refs/heads/main/key_interpolation.py
     path: key_interpolation.py
     inputs:
       keyboard: keyboard-listener/char
     outputs:
       - text
 
-  - id: text-interpolation
-    build: wget https://raw.githubusercontent.com/lyon-dora/dora_mickrobot/refs/heads/main/text_interpolation.py
-    path: text_interpolation.py
-    inputs:
-      text: key-interpolation/text
-    outputs:
-      - CmdVelTwist
-
-  - id: camera1
-    build: pip install opencv-video-capture==0.3.7rc0
+  - id: camera1 # Run on car
+    build: pip install opencv-video-capture
     path: opencv-video-capture
     inputs:
       tick: dora/timer/millis/16
@@ -39,8 +31,8 @@ nodes:
       IMAGE_WIDTH: 640
       IMAGE_HEIGHT: 480
 
-  - id: camera2
-    build: pip install opencv-video-capture==0.3.7rc0
+  - id: camera2 # Run on car
+    build: pip install opencv-video-capture
     path: opencv-video-capture
     inputs:
       tick: dora/timer/millis/16
@@ -51,16 +43,10 @@ nodes:
       IMAGE_WIDTH: 640
       IMAGE_HEIGHT: 480
 
-  # - id: plot
-  #   operator:
-  #     python: plot_image_only.py
-  #     inputs:
-  #       image: camera/image
-
   - id: plot
     build: |
-      cargo install --force rerun-cli@0.15.1
-      cargo install dora-rerun --locked
+      wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/rerun # cargo install rerun@0.18.2 --locked
+      wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/dora-rerun # cargo install dora-rerun@0.3.6 --locked
     path: dora-rerun
     inputs:
       image_1:
