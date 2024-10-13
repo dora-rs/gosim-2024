@@ -1,11 +1,15 @@
 nodes:
   - id: mickrobot_chassis # Run on car
+    _unstable_deploy:
+      machine: ec7
     build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
     path: chongyou-car
     inputs:
       text: dora-qwenvl/tick
 
   - id: camera1 # Run on car
+    _unstable_deploy:
+      machine: ec7
     build: pip install opencv-video-capture
     path: opencv-video-capture
     inputs:
@@ -18,6 +22,8 @@ nodes:
       IMAGE_HEIGHT: 480
 
   - id: camera2 # Run on car
+    _unstable_deploy:
+      machine: ec7
     build: pip install opencv-video-capture
     path: opencv-video-capture
     inputs:
@@ -30,6 +36,8 @@ nodes:
       IMAGE_HEIGHT: 480
 
   - id: plot
+    _unstable_deploy:
+      machine: ec7
     build: |
       wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/rerun
       wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/dora-rerun

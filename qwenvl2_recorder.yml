@@ -2,14 +2,20 @@ nodes:
   - id: mickrobot_chassis # Run on car
     build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
     path: chongyou-car
+    _unstable_deploy:
+      machine: ec7
     inputs:
       text: dora-qwenvl-recorder/text
 
   - id: keyboard-listener # Run on car
     build: pip install dora-keyboard
     path: dora-keyboard
+    _unstable_deploy:
+      machine: ec7
     outputs:
       - char
+    env:
+      DISPLAY: :0
 
   - id: key-interpolation
     build: wget -nc https://raw.githubusercontent.com/lyon-dora/dora_mickrobot/refs/heads/main/key_interpolation.py
@@ -18,12 +24,12 @@ nodes:
       keyboard: keyboard-listener/char
     outputs:
       - text
-    env:
-      DISPLAY: :0
 
   - id: camera1 # Run on car
     build: pip install opencv-video-capture
     path: opencv-video-capture
+    _unstable_deploy:
+      machine: ec7
     inputs:
       tick: dora/timer/millis/16
     outputs:
@@ -36,6 +42,8 @@ nodes:
   - id: camera2 # Run on car
     build: pip install opencv-video-capture
     path: opencv-video-capture
+    _unstable_deploy:
+      machine: ec7
     inputs:
       tick: dora/timer/millis/16
     outputs:
@@ -50,6 +58,8 @@ nodes:
       wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/rerun
       wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/dora-rerun
     path: dora-rerun
+    _unstable_deploy:
+      machine: ec7
     inputs:
       image_1:
         source: camera1/image
