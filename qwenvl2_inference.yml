@@ -2,7 +2,7 @@ nodes:
   - id: mickrobot_chassis # Run on car
     _unstable_deploy:
       machine: ec7
-    build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
+    # build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
     path: chongyou-car
     inputs:
       text: dora-qwenvl/tick
@@ -10,7 +10,7 @@ nodes:
   - id: camera1 # Run on car
     _unstable_deploy:
       machine: ec7
-    build: pip install opencv-video-capture
+    # build: pip install opencv-video-capture
     path: opencv-video-capture
     inputs:
       tick: dora/timer/millis/16
@@ -24,7 +24,7 @@ nodes:
   - id: camera2 # Run on car
     _unstable_deploy:
       machine: ec7
-    build: pip install opencv-video-capture
+    # build: pip install opencv-video-capture
     path: opencv-video-capture
     inputs:
       tick: dora/timer/millis/16
@@ -38,9 +38,9 @@ nodes:
   - id: plot
     _unstable_deploy:
       machine: ec7
-    build: |
-      wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/rerun
-      wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/dora-rerun
+    # build: |
+    # wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/rerun
+    # wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/dora-rerun
     path: dora-rerun
     inputs:
       image_1:
@@ -56,7 +56,7 @@ nodes:
       RERUN_MEMORY_LIMIT: 25%
 
   - id: dora-qwenvl
-    build: pip install /home/crp/dora/node-hub/dora-qwenvl
+    build: pip install dora-qwenvl
     path: dora-qwenvl
     inputs:
       image_1:
