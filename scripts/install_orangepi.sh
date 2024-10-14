@@ -10,6 +10,8 @@ sudo chmod +x /usr/local/bin/rerun
 sudo chmod +x /usr/local/bin/dora-rerun
 sudo chmod +x /usr/local/bin/robot
 
+## Dora Daemon
+
 sudo tee /etc/systemd/system/dora-daemon.service << EOF
 Description=Dora Daemon in Conda Environment
 After=network.target
@@ -31,5 +33,3 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable dora-daemon.service
 sudo systemctl restart dora-daemon.service
-
-echo `sudo chmod 777 /dev/ttyUSB0` >> ~/.bashrc
