@@ -57,13 +57,11 @@ Return:
 
 - Then you should create a ssh service
 
-- Make sure to input the right ssh connection within `./scripts/start_ssh_service.sh`
-  > Modify: `SSH_CONNECTION = peter@192.168.3.112`
-
 ```bash
-wget 192.168.3.5:8000/gosim-2024/start_ssh_service.sh
-chmod +x start_ssh_service.sh
-./start_ssh_service.sh
+export SSH_CONNECTION=peter@192.168.3.112
+ssh-copy-id $SSH_CONNECTION
+chmod +x ./scripts/start_ssh_service.sh
+./scripts/start_ssh_service.sh
 ```
 
 If this is successful, you should not have error when calling:
@@ -106,7 +104,6 @@ cd gosim-2024
 curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/dora-rs/dora/main/install.sh | bash -s -- --tag v0.3.7rc0
 
 source ~/.bashrc
-dora build qwenvl2_recorder.yml
 ```
 
 #### To start on your own computer
@@ -171,9 +168,8 @@ llamafactory-cli train examples/train_lora/qwen2vl_lora_sft.yaml
 - Then you should create a dora daemon service
 
 ```
-wget 192.168.3.5:8000/gosim-2024/start_leader_dora_daenon_service.sh
-chmod +x start_leader_dora_daenon_service.sh
-./start_leader_dora_daenon_service.sh
+chmod +x ./scripts/start_leader_dora_daenon_service.sh
+./scripts/start_leader_dora_daenon_service.sh
 ```
 
 If this is successful, you should not have error when calling:
@@ -203,9 +199,8 @@ Return:
 - Then you should create a dora coordinator service
 
 ```
-wget 192.168.3.5:8000/gosim-2024/start_leader_dora_coordinator_service.sh
-chmod +x start_leader_dora_coordinator_service.sh
-./start_leader_dora_coordinator_service.sh
+chmod +x ./scripts/start_leader_dora_coordinator_service.sh
+./scripts/start_leader_dora_coordinator_service.sh
 ```
 
 If this is successful, you should not have error when calling:
