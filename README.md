@@ -7,9 +7,9 @@
 Get the installation script either from 192.168.3.5
 
 ```bash
-wget 192.168.3.5:8000/gosim-2024/install_orangegi.sh
-chmod +x install_orangegi.sh
-./install_orangegi.sh
+wget 192.168.3.5:8000/gosim-2024/install_orangepi.sh
+chmod +x install_orangepi.sh
+./install_orangepi.sh
 ```
 
 ---
