@@ -1,8 +1,8 @@
-# gosim-hackathon-2024
+## Gosim Hackathon 2024
 
-Repository for managing the GOSIM Hackathon 2024
+> Repository for managing the GOSIM Hackathon 2024
 
-## Installation
+#### OrangePi Installation
 
 Get the installation script either from 192.168.3.5
 
@@ -12,7 +12,9 @@ chmod +x install_orangegi.sh
 ./install_orangegi.sh
 ```
 
-## Then connecct to the cloud from the Orange Pi
+---
+
+#### SSH Connection to the cloud from the Orange Pi
 
 ```bash
 ssh root@ssh.openbayes.com -p 30773 -L 53290:0.0.0.0:53290 -R 20001:0.0.0.0:20001 -L 20002:0.0.0.0:20002
@@ -20,7 +22,9 @@ ssh root@ssh.openbayes.com -p 30773 -L 53290:0.0.0.0:53290 -R 20001:0.0.0.0:2000
 
 > Make sure to update the port "30773" to your port
 
-## Installation
+---
+
+#### Cloud Installation
 
 ```bash
 # if not already present
@@ -32,7 +36,9 @@ source ~/.bashrc
 dora build qwenvl2_recorder.yml
 ```
 
-## Usage
+---
+
+#### Cloud Usage
 
 ```bash
 
@@ -42,4 +48,15 @@ cd gosim-2024
 ./scripts/setup_cloud.sh
 
 dora start qwenvl2_recorder.yml
+```
+
+---
+
+#### Training
+
+```bash
+cd $HOME/LLaMA-Factory
+
+vim  examples/train_lora/qwen2vl_lora_sft.yaml
+llamafactory-cli train examples/train_lora/qwen2vl_lora_sft.yaml
 ```

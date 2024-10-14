@@ -74,9 +74,9 @@ nodes:
       RERUN_MEMORY_LIMIT: 25%
 
   - id: dora-qwenvl-recorder
-    # build: |
-    # git clone https://github.com/hiyouga/LLaMA-Factory $HOME/LLaMA-Factory
-    # pip install llama-factory-recorder
+    build: |
+      git clone https://github.com/hiyouga/LLaMA-Factory $HOME/LLaMA-Factory
+      pip install llama-factory-recorder
     path: llama-factory-recorder
     inputs:
       image_1:
