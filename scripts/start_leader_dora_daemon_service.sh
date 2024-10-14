@@ -6,7 +6,7 @@ After=network.target
 User=$USER
 Environment='PATH=$PATH'
 WorkingDirectory=/home/$USER
-ExecStart=/bin/bash -c 'source /home/$USER/.bashrc && source $CONDA_PREFIX/bin/activate base && dora daemon --inter-daemon-addr 0.0.0.0:20001'
+ExecStart=/bin/bash -c 'source /home/$USER/.bashrc && source $CONDA_PREFIX/bin/activate base && dora daemon --inter-daemon-addr 0.0.0.0:20002'
 Restart=always
 RestartSec=3
 StartLimitInterval=60
