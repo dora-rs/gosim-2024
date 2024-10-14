@@ -3,7 +3,7 @@ nodes:
     _unstable_deploy:
       machine: ec7
     # build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
-    path: chongyou-car
+    path: robot
     inputs:
       text: dora-qwenvl/tick
 
@@ -13,13 +13,15 @@ nodes:
     # build: pip install opencv-video-capture
     path: opencv-video-capture
     inputs:
-      tick: dora/timer/millis/16
+      tick: dora/timer/millis/200
     outputs:
       - image
     env:
       CAPTURE_PATH: 0
       IMAGE_WIDTH: 640
       IMAGE_HEIGHT: 480
+      ENCODING: jpeg
+      FLIP: VERTICAL
 
   - id: camera2 # Run on car
     _unstable_deploy:
@@ -27,13 +29,15 @@ nodes:
     # build: pip install opencv-video-capture
     path: opencv-video-capture
     inputs:
-      tick: dora/timer/millis/16
+      tick: dora/timer/millis/200
     outputs:
       - image
     env:
       CAPTURE_PATH: 2
       IMAGE_WIDTH: 640
       IMAGE_HEIGHT: 480
+      ENCODING: jpeg
+      FLIP: VERTICAL
 
   - id: plot
     _unstable_deploy:
@@ -70,6 +74,6 @@ nodes:
       - text
       - tick
     env:
-      DEFAULT_QUESTION: Respond with right, left, forward, backward,stop to move to the white label
-      CUSTOM_MODEL_PATH: $HOME/.cache/modelscope/hub/Qwen/Qwen2-VL-2B-Instruct
-      ADAPTER_PATH: $HOME/LLaMA-Factory/saves/qwen2_vl-2b_out_3/lora/sft/checkpoint-728
+      DEFAULT_QUESTION: Respond with right, left, forward, backward, stop to move to the person
+      USE_MODELSCOPE_HUB: True
+      ADAPTER_PATH: /openbayes/home/gosim-2024/sft

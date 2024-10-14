@@ -1,7 +1,7 @@
 nodes:
   - id: mickrobot_chassis # Run on car
     # build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
-    path: chongyou-car
+    path: robot
     _unstable_deploy:
       machine: ec7
     inputs:
@@ -31,13 +31,15 @@ nodes:
     _unstable_deploy:
       machine: ec7
     inputs:
-      tick: dora/timer/millis/16
+      tick: dora/timer/millis/200
     outputs:
       - image
     env:
       CAPTURE_PATH: 0
       IMAGE_WIDTH: 640
       IMAGE_HEIGHT: 480
+      ENCODING: jpeg
+      FLIP: VERTICAL
 
   - id: camera2 # Run on car
     # build: pip install opencv-video-capture
@@ -45,13 +47,15 @@ nodes:
     _unstable_deploy:
       machine: ec7
     inputs:
-      tick: dora/timer/millis/16
+      tick: dora/timer/millis/200
     outputs:
       - image
     env:
       CAPTURE_PATH: 2
       IMAGE_WIDTH: 640
       IMAGE_HEIGHT: 480
+      ENCODING: jpeg
+      FLIP: VERTICAL
 
   - id: plot
     # build: |
@@ -75,7 +79,7 @@ nodes:
 
   - id: dora-qwenvl-recorder
     build: |
-      git clone https://github.com/hiyouga/LLaMA-Factory $HOME/LLaMA-Factory
+      git clone https://github.com/hiyouga/LLaMA-Factory LLaMA-Factory
       pip install llama-factory-recorder
     path: llama-factory-recorder
     inputs:
@@ -90,4 +94,4 @@ nodes:
       - text
     env:
       DEFAULT_QUESTION: Respond with right, left, forward, backward,stop to move to the red line
-      LLAMA_FACTORY_ROOT_PATH: $HOME/LLaMA-Factory
+      LLAMA_FACTORY_ROOT_PATH: LLaMA-Factory
