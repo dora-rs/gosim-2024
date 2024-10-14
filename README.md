@@ -163,3 +163,70 @@ cd $HOME/LLaMA-Factory
 vim  examples/train_lora/qwen2vl_lora_sft.yaml
 llamafactory-cli train examples/train_lora/qwen2vl_lora_sft.yaml
 ```
+
+---
+
+#### Leader Dora Daemon Linux Service
+
+- Then you should create a dora daemon service
+
+```
+wget 192.168.3.5:8000/gosim-2024/start_leader_dora_daenon_service.sh
+chmod +x start_leader_dora_daenon_service.sh
+./start_leader_dora_daenon_service.sh
+```
+
+If this is successful, you should not have error when calling:
+
+```bash
+sudo systemctl status dora-daemon.service
+```
+
+Return:
+
+```bash
+● dora-daemon.service
+     Loaded: loaded (/etc/systemd/system/dora-daemon.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2024-10-15 00:25:58 CEST; 13min ago
+   Main PID: 256635 (dora)
+      Tasks: 34 (limit: 37374)
+     Memory: 3.2M
+        CPU: 122ms
+     CGroup: /system.slice/dora-daemon.service
+             └─256635 dora daemon --inter-daemon-addr 0.0.0.0:20001
+```
+
+---
+
+#### Leader Dora Coordinator Linux Service
+
+- Then you should create a dora coordinator service
+
+```
+wget 192.168.3.5:8000/gosim-2024/start_leader_dora_coordinator_service.sh
+chmod +x start_leader_dora_coordinator_service.sh
+./start_leader_dora_coordinator_service.sh
+```
+
+If this is successful, you should not have error when calling:
+
+```bash
+sudo systemctl status dora-coordinator.service
+```
+
+Return:
+
+```bash
+● dora-coordinator.service
+     Loaded: loaded (/etc/systemd/system/dora-coordinator.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2024-10-15 00:54:12 CEST; 2s ago
+   Main PID: 315394 (dora)
+      Tasks: 34 (limit: 37374)
+     Memory: 3.2M
+        CPU: 62ms
+     CGroup: /system.slice/dora-coordinator.service
+             └─315394 dora coordinator
+
+Oct 15 00:54:12 peter-rog systemd[1]: Started dora-coordinator.service.
+Oct 15 00:54:12 peter-rog bash[315394]: Listening for incoming daemon connection on 53290
+```
