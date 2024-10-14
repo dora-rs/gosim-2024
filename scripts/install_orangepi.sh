@@ -31,3 +31,5 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable dora-daemon.service
 sudo systemctl restart dora-daemon.service
+
+echo `sudo chmod 777 /dev/ttyUSB0` >> ~/.bashrc

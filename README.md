@@ -36,6 +36,34 @@ source ~/.bashrc
 dora build qwenvl2_recorder.yml
 ```
 
+#### Testing Hardware
+
+##### Testing cameras
+
+```bash
+## Within the orangepi
+ls /dev/video*
+```
+
+If you connected 2 cameras properly, this should return
+
+```
+/dev/video0  /dev/video1 /dev/video2  /dev/video3
+```
+
+##### Testing car
+
+```bash
+## Within the orangepi
+robot
+
+
+## Make sure to have used:
+sudo chmod 777 /dev/ttyUSB0
+```
+
+If you get `serial connect fail` means that there is a problem with the board.
+
 ---
 
 #### Cloud Usage
