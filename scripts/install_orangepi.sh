@@ -1,9 +1,9 @@
 pip install dora-keyboard==0.3.7rc0
 pip install opencv-video-capture==0.3.7rc0
-wget 192.168.3.5:8000/dora -o /usr/local/bin/dora
-wget 192.168.3.5:8000/rerun -o /usr/local/bin/rerun
-wget 192.168.3.5:8000/dora-rerun -o /usr/local/bin/dora-rerun
-wget 192.168.3.5:8000/robot -o /usr/local/bin/robot
+sudo wget 192.168.3.5:8000/dora -O /usr/local/bin/dora
+sudo wget 192.168.3.5:8000/rerun -O /usr/local/bin/rerun
+sudo wget 192.168.3.5:8000/dora-rerun -O /usr/local/bin/dora-rerun
+sudo wget 192.168.3.5:8000/robot -O /usr/local/bin/robot
 
 sudo chmod +x /usr/local/bin/dora
 sudo chmod +x /usr/local/bin/rerun
