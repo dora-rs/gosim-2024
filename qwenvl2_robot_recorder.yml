@@ -1,4 +1,16 @@
 nodes:
+  - id: arm # Run on car
+    # build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
+    path: dora-gen72
+    _unstable_deploy:
+      machine: ec7
+    inputs:
+      movec: arm-interpolation/movec
+      movej: arm-interpolation/movej
+      claw: arm-interpolation/claw
+    env:
+      ROBOT_IP: 192.168.1.18
+
   - id: mickrobot_chassis # Run on car
     # build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
     path: robot
@@ -15,15 +27,23 @@ nodes:
     outputs:
       - char
     env:
-      DISPLAY: :0
+      DISPLAY: :1
 
   - id: key-interpolation
-    build: wget -nc https://raw.githubusercontent.com/lyon-dora/dora_mickrobot/refs/heads/main/key_interpolation.py
     path: key_interpolation.py
     inputs:
       keyboard: keyboard-listener/char
     outputs:
       - text
+
+  - id: arm-interpolation
+    path: arm_interpolation.py
+    inputs:
+      keyboard: dora-qwenvl-recorder/text
+    outputs:
+      - movec
+      - movej
+      - claw
 
   - id: camera1 # Run on car
     # build: pip install opencv-video-capture
@@ -76,9 +96,6 @@ nodes:
       RERUN_MEMORY_LIMIT: 25%
 
   - id: dora-qwenvl-recorder
-    build: |
-      git clone https://github.com/hiyouga/LLaMA-Factory LLaMA-Factory
-      pip install llama-factory-recorder
     path: llama-factory-recorder
     inputs:
       image_1:
@@ -92,4 +109,4 @@ nodes:
       - text
     env:
       DEFAULT_QUESTION: Respond with right, left, forward, backward,stop to move to the red line
-      LLAMA_FACTORY_ROOT_PATH: LLaMA-Factory
+      LLAMA_FACTORY_ROOT_PATH: /home/peter/Documents/work/LLaMA-Factory

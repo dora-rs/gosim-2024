@@ -1,5 +1,5 @@
 nodes:
-  - id: mickrobot_chassis # Run on car
+  - id: arm # Run on car
     # build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
     path: dora-gen72
     _unstable_deploy:
