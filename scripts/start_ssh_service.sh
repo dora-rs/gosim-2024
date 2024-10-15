@@ -1,4 +1,6 @@
 ## SSH
+export SSH_CONNECTION=peter@192.168.3.112
+
 sudo tee /etc/systemd/system/ssh-client.service << EOF
 Description=SSH Client 
 After=network.target
