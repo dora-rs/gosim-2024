@@ -1,0 +1,97 @@
+nodes:
+  - id: mickrobot_chassis # Run on car
+    # build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
+    path: dora-gen72
+    _unstable_deploy:
+      machine: ec7
+    inputs:
+      text: dora-qwenvl-recorder/text
+
+  - id: keyboard-listener # Run on car
+    # build: pip install dora-keyboard
+    path: dora-keyboard
+    _unstable_deploy:
+      machine: ec7
+    outputs:
+      - char
+    env:
+      DISPLAY: :0
+
+  - id: key-interpolation
+    build: wget -nc https://raw.githubusercontent.com/lyon-dora/dora_mickrobot/refs/heads/main/key_interpolation.py
+    path: key_interpolation.py
+    inputs:
+      keyboard: keyboard-listener/char
+    outputs:
+      - text
+
+  - id: camera1 # Run on car
+    # build: pip install opencv-video-capture
+    path: opencv-video-capture
+    _unstable_deploy:
+      machine: ec7
+    inputs:
+      tick: dora/timer/millis/200
+    outputs:
+      - image
+    env:
+      CAPTURE_PATH: 0
+      IMAGE_WIDTH: 640
+      IMAGE_HEIGHT: 480
+      ENCODING: jpeg
+      FLIP: VERTICAL
+
+  - id: camera2 # Run on car
+    # build: pip install opencv-video-capture
+    path: opencv-video-capture
+    _unstable_deploy:
+      machine: ec7
+    inputs:
+      tick: dora/timer/millis/200
+    outputs:
+      - image
+    env:
+      CAPTURE_PATH: 2
+      IMAGE_WIDTH: 640
+      IMAGE_HEIGHT: 480
+      ENCODING: jpeg
+      FLIP: VERTICAL
+
+  - id: plot
+    # build: |
+    # wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/rerun
+    # wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/dora-rerun
+    path: dora-rerun
+    _unstable_deploy:
+      machine: ec7
+    inputs:
+      image_1:
+        source: camera1/image
+        queue_size: 1
+      image_2:
+        source: camera2/image
+        queue_size: 1
+      textlog_vlm: dora-qwenvl-recorder/text
+    env:
+      IMAGE_WIDTH: 640
+      IMAGE_HEIGHT: 480
+      RERUN_MEMORY_LIMIT: 25%
+
+  - id: dora-qwenvl-recorder
+    build: |
+      git clone https://github.com/hiyouga/LLaMA-Factory LLaMA-Factory
+      pip install llama-factory-recorder
+    path: llama-factory-recorder
+    inputs:
+      image_1:
+        source: camera1/image
+        queue_size: 1
+      image_2:
+        source: camera2/image
+        queue_size: 1
+      ground_truth: key-interpolation/text
+    outputs:
+      - text
+    env:
+      DEFAULT_QUESTION: Respond with right, left, forward, backward,stop to move to the red line
+      LLAMA_FACTORY_ROOT_PATH: LLaMA-Factory

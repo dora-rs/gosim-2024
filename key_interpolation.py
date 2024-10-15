@@ -9,7 +9,7 @@ for event in node:
         if event["id"] == "keyboard":
             char = event["value"][0].as_py()
             if char == "w":
-                print(" w ",event["value"])
+                print(" w ", event["value"])
                 node.send_output("text", pa.array(["forward"]))
             elif char == "s":
                 node.send_output("text", pa.array(["backward"]))
@@ -18,5 +18,13 @@ for event in node:
                 node.send_output("text", pa.array(["right"]))
             elif char == "a":
                 node.send_output("text", pa.array(["left"]))
-            elif char =="q":
+            elif char == "q":
                 node.send_output("text", pa.array(["stop"]))
+            elif char == "r":
+                node.send_output("text", pa.array(["open"]))
+            elif char == "t":
+                node.send_output("text", pa.array(["close"]))
+            elif char == "y":
+                node.send_output("text", pa.array(["up"]))
+            elif char == "h":
+                node.send_output("text", pa.array(["down"]))

@@ -1,0 +1,49 @@
+nodes:
+  - id: camera1 # Run on car
+    # build: pip install opencv-video-capture
+    path: opencv-video-capture
+    _unstable_deploy:
+      machine: ec7
+    inputs:
+      tick: dora/timer/millis/20
+    outputs:
+      - image
+    env:
+      CAPTURE_PATH: 0
+      IMAGE_WIDTH: 640
+      IMAGE_HEIGHT: 480
+      ENCODING: jpeg
+      FLIP: VERTICAL
+
+  - id: camera2 # Run on car
+    # build: pip install opencv-video-capture
+    path: opencv-video-capture
+    _unstable_deploy:
+      machine: ec7
+    inputs:
+      tick: dora/timer/millis/20
+    outputs:
+      - image
+    env:
+      CAPTURE_PATH: 2
+      IMAGE_WIDTH: 640
+      IMAGE_HEIGHT: 480
+      ENCODING: jpeg
+      FLIP: VERTICAL
+
+  - id: plot
+    # build: |
+    # wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/rerun
+    # wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/dora-rerun
+    path: dora-rerun
+    inputs:
+      image_1:
+        source: camera1/image
+        queue_size: 1
+      image_2:
+        source: camera2/image
+        queue_size: 1
+    env:
+      IMAGE_WIDTH: 640
+      IMAGE_HEIGHT: 480
+      RERUN_MEMORY_LIMIT: 25%
