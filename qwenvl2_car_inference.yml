@@ -40,8 +40,6 @@ nodes:
       FLIP: VERTICAL
 
   - id: plot
-    _unstable_deploy:
-      machine: ec7
     # build: |
     # wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/rerun
     # wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/dora-rerun

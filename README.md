@@ -106,8 +106,6 @@ curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/dora-rs/d
 source ~/.bashrc
 ```
 
-#### To start on your own computer
-
 #### Testing Hardware
 
 ##### Testing cameras
@@ -125,12 +123,28 @@ If you connected 2 cameras properly, this should return
 
 ##### Testing car
 
+Run:
+
 ```bash
 ## Within the orangepi
 robot
+```
 
+If the installation is successful, you should get:
 
-## Make sure to have used:
+```bash
+Error: env variable DORA_NODE_CONFIG must be set. Are you sure your using `dora start`?
+
+Caused by:
+    environment variable not found
+
+Location:
+    /home/HwHiAiUser/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dora-node-api-0.3.6/src/node/mod.rs:67:57
+```
+
+If not you should try:
+
+```bash
 sudo chmod 777 /dev/ttyUSB0
 ```
 
@@ -162,6 +176,8 @@ llamafactory-cli train examples/train_lora/qwen2vl_lora_sft.yaml
 ```
 
 ---
+
+### To start on your own computer
 
 #### Leader Dora Daemon Linux Service
 
@@ -225,3 +241,5 @@ Return:
 Oct 15 00:54:12 peter-rog systemd[1]: Started dora-coordinator.service.
 Oct 15 00:54:12 peter-rog bash[315394]: Listening for incoming daemon connection on 53290
 ```
+
+---

@@ -42,12 +42,12 @@ class Action(Enum):
     # "movej",
     # [2, 0, 0, 0, 0, 0, 0],
     # )
-    # FORWARD = ("forward", "movec", [0.04, 0, 0, 0, 0, 0, 0.1])
-    # BACK = ("back", "movec", [-0.04, 0, 0, 0, 0, 0, 0.1])
-    # LEFT = ("left", "movec", [0, -0.04, 0, 0, 0, 0, 0.1])
-    # RIGHT = ("right", "movec", [0, 0.04, 0, 0, 0, 0, 0.1])
-    UP = ("up", "movec", [0, 0, 0.04, 0, 0, 0, 0.1])
-    DOWN = ("down", "movec", [0, 0, -0.04, 0, 0, 0, 0.1])
+    FORWARD = ("arm forward", "movec", [0.04, 0, 0, 0, 0, 0, 0.1])
+    BACK = ("arm backward", "movec", [-0.04, 0, 0, 0, 0, 0, 0.1])
+    LEFT = ("arm left", "movec", [0, -0.04, 0, 0, 0, 0, 0.1])
+    RIGHT = ("arm right", "movec", [0, 0.04, 0, 0, 0, 0, 0.1])
+    UP = ("arm up", "movec", [0, 0, 0.04, 0, 0, 0, 0.1])
+    DOWN = ("arm down", "movec", [0, 0, -0.04, 0, 0, 0, 0.1])
     CLOSE = ("close", "claw", [0])
     OPEN = ("open", "claw", [100])
     # STOP = ("stop", "stop", [])

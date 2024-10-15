@@ -36,8 +36,6 @@ nodes:
     # wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/rerun
     # wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/dora-rerun
     path: dora-rerun
-    _unstable_deploy:
-      machine: ec7
     inputs:
       image_1:
         source: camera1/image

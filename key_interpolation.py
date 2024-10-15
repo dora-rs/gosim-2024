@@ -25,6 +25,14 @@ for event in node:
             elif char == "t":
                 node.send_output("text", pa.array(["close"]))
             elif char == "y":
-                node.send_output("text", pa.array(["up"]))
+                node.send_output("text", pa.array(["arm forward"]))
             elif char == "h":
-                node.send_output("text", pa.array(["down"]))
+                node.send_output("text", pa.array(["arm backward"]))
+            elif char == "g":
+                node.send_output("text", pa.array(["arm left"]))
+            elif char == "j":
+                node.send_output("text", pa.array(["arm right"]))
+            elif char == "t":
+                node.send_output("text", pa.array(["arm down"]))
+            elif char == "u":
+                node.send_output("text", pa.array(["arm up"]))
