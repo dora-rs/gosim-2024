@@ -1,11 +1,50 @@
 nodes:
   - id: arm # Run on car
+    # build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
+    path: dora-gen72
     _unstable_deploy:
       machine: ec7
-    # build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
-    path: robot
     inputs:
-      text: dora-qwenvl/tick
+      movec:
+        source: arm-interpolation/movec
+        queue_size: 1
+      movej: arm-interpolation/movej
+      claw: arm-interpolation/claw
+      save: arm-interpolation/save
+      go_to: arm-interpolation/go_to
+    env:
+      ROBOT_IP: 192.168.1.18
+      MIN_Z: "-0.04"
+
+  - id: arm-interpolation
+    path: arm_interpolation.py
+    inputs:
+      keyboard: dora-qwenvl/tick
+      text: key-interpolation/text
+    outputs:
+      - movec
+      - movej
+      - claw
+      - save
+      - go_to
+      - prompt
+
+  - id: keyboard-listener # Run on car
+    # build: pip install dora-keyboard
+    path: dora-keyboard
+    inputs:
+      tick: dora/timer/millis/10
+    outputs:
+      - char
+    env:
+      DISPLAY: :1
+
+  - id: key-interpolation
+    path: key_interpolation.py
+    inputs:
+      keyboard: keyboard-listener/char
+    outputs:
+      - text
 
   - id: mickrobot_chassis # Run on car
     # build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
@@ -29,7 +68,7 @@ nodes:
       IMAGE_WIDTH: 640
       IMAGE_HEIGHT: 480
       ENCODING: jpeg
-      FLIP: VERTICAL
+      FLIP: BOTH
 
   - id: camera2 # Run on car
     _unstable_deploy:
@@ -45,7 +84,6 @@ nodes:
       IMAGE_WIDTH: 640
       IMAGE_HEIGHT: 480
       ENCODING: jpeg
-      FLIP: VERTICAL
 
   - id: plot
     # build: |
@@ -59,7 +97,8 @@ nodes:
       image_2:
         source: camera2/image
         queue_size: 1
-      textlog_vlm: dora-qwenvl-recorder/text
+      textlog_vlm: dora-qwenvl/tick
+      text_prompt: arm-interpolation/prompt
     env:
       IMAGE_WIDTH: 640
       IMAGE_HEIGHT: 480
@@ -76,10 +115,11 @@ nodes:
         source: camera2/image
         queue_size: 1
       tick: dora/timer/millis/200
+      text: arm-interpolation/prompt
     outputs:
       - text
       - tick
     env:
-      DEFAULT_QUESTION: Respond with right, left, forward, backward, stop to move to the person
+      DEFAULT_QUESTION: Respond with arm left, arm right, arm up, arm down, open, close, or go home to grab the bottle
       USE_MODELSCOPE_HUB: True
-      ADAPTER_PATH: /openbayes/home/gosim-2024/sft
+      ADAPTER_PATH: /home/peter/Documents/work/LLaMA-Factory/saves/qwen2_vl-2b/lora-gosim-full/sft

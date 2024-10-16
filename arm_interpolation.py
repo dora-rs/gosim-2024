@@ -48,7 +48,7 @@ class Action(Enum):
     RIGHT = ("arm right", "movec", [0, -0.04, 0, 0, 0, 0, 0.1])
     UP = ("arm up", "movec", [0, 0, 0.04, 0, 0, 0, 0.1])
     DOWN = ("arm down", "movec", [0, 0, -0.04, 0, 0, 0, 0.1])
-    CLOSE = ("close", "claw", [0])
+    CLOSE = ("close", "claw", [50])
     OPEN = ("open", "claw", [100])
     # STOP = ("stop", "stop", [])
     SAVE = ("save", "save", [])
@@ -56,6 +56,8 @@ class Action(Enum):
     # END_TEACH = ("end of teach", "end_teach", [])
     # TEACH = ("teach", "teach", [])
 
+
+go_to_box = False
 
 for event in node:
     if event["type"] == "INPUT":
@@ -73,4 +75,17 @@ for event in node:
             for action in Action:
                 if action.value[0] in text:
                     node.send_output(action.value[1], pa.array(action.value[2]))
+                    if action.value[0] == "close" and not go_to_box:
+                        already_close = True
+                        node.send_output(
+                            "prompt",
+                            pa.array(
+                                [
+                                    "Respond with left, right, forward, backward, open, close to drop the bottle in the box"
+                                ]
+                            ),
+                        )  # TODO: Remove this
+                        node.send_output(
+                            "go_to", pa.array(["home"])
+                        )  # TODO: Remove this
                     break
