@@ -5,11 +5,11 @@ nodes:
     _unstable_deploy:
       machine: ec7
     inputs:
-      # movec: arm-interpolation/movec
-      # movej: arm-interpolation/movej
-      # claw: arm-interpolation/claw
-      # save: arm-interpolation/save
-      # go_to: arm-interpolation/go_to
+      movec: arm-interpolation/movec
+      movej: arm-interpolation/movej
+      claw: arm-interpolation/claw
+      save: arm-interpolation/save
+      go_to: arm-interpolation/go_to
     env:
       ROBOT_IP: 192.168.1.18
 
