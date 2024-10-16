@@ -15,7 +15,7 @@ nodes:
     outputs:
       - char
     env:
-      DISPLAY: :0
+      DISPLAY: :1
 
   - id: key-interpolation
     build: wget -nc https://raw.githubusercontent.com/lyon-dora/dora_mickrobot/refs/heads/main/key_interpolation.py
@@ -74,6 +74,21 @@ nodes:
       IMAGE_WIDTH: 640
       IMAGE_HEIGHT: 480
       RERUN_MEMORY_LIMIT: 25%
+      README: |
+        To control the robot, use the following keys:
+        - w: move forward
+        - s: move backward
+        - a: move left
+        - d: move right
+        - q: stop
+        - r: open gripper
+        - t: close gripper
+        - f: move arm left
+        - g: move arm right
+        - h: move arm down
+        - y: move arm up
+        - v: go home
+        - b: save home
 
   - id: dora-qwenvl-recorder
     build: |

@@ -2,6 +2,89 @@
 
 > Repository for managing the GOSIM Hackathon 2024
 
+### To start on your own computer
+
+#### Install dora-rs from the latest prerelease v0.3.7-rc0
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/dora-rs/dora/main/install.sh | bash -s -- --tag v0.3.7rc0
+
+source ~/.bashrc
+```
+
+If this is successful, you should be able to:
+
+```bash
+dora --help
+```
+
+---
+
+#### Leader Dora Daemon Linux Service
+
+- Then you should create a dora daemon service
+
+```
+chmod +x ./scripts/start_leader_dora_daenon_service.sh
+./scripts/start_leader_dora_daenon_service.sh
+```
+
+If this is successful, you should not have error when calling:
+
+```bash
+sudo systemctl status dora-daemon.service
+```
+
+Return:
+
+```bash
+● dora-daemon.service
+     Loaded: loaded (/etc/systemd/system/dora-daemon.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2024-10-15 00:25:58 CEST; 13min ago
+   Main PID: 256635 (dora)
+      Tasks: 34 (limit: 37374)
+     Memory: 3.2M
+        CPU: 122ms
+     CGroup: /system.slice/dora-daemon.service
+             └─256635 dora daemon --inter-daemon-addr 0.0.0.0:20001
+```
+
+---
+
+#### Leader Dora Coordinator Linux Service
+
+- Then you should create a dora coordinator service
+
+```
+chmod +x ./scripts/start_leader_dora_coordinator_service.sh
+./scripts/start_leader_dora_coordinator_service.sh
+```
+
+If this is successful, you should not have error when calling:
+
+```bash
+sudo systemctl status dora-coordinator.service
+```
+
+Return:
+
+```bash
+● dora-coordinator.service
+     Loaded: loaded (/etc/systemd/system/dora-coordinator.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2024-10-15 00:54:12 CEST; 2s ago
+   Main PID: 315394 (dora)
+      Tasks: 34 (limit: 37374)
+     Memory: 3.2M
+        CPU: 62ms
+     CGroup: /system.slice/dora-coordinator.service
+             └─315394 dora coordinator
+
+Oct 15 00:54:12 peter-rog systemd[1]: Started dora-coordinator.service.
+Oct 15 00:54:12 peter-rog bash[315394]: Listening for incoming daemon connection on 53290
+```
+
+---
+
 #### OrangePi Installation
 
 - Get the installation script either from 192.168.3.5
@@ -171,75 +254,10 @@ dora start qwenvl2_recorder.yml
 ```bash
 cd $HOME/LLaMA-Factory
 
-vim  examples/train_lora/qwen2vl_lora_sft.yaml
+vim examples/train_lora/qwen2vl_lora_sft.yaml
+# Modify the file to use the dataset you just created
+
 llamafactory-cli train examples/train_lora/qwen2vl_lora_sft.yaml
-```
-
----
-
-### To start on your own computer
-
-#### Leader Dora Daemon Linux Service
-
-- Then you should create a dora daemon service
-
-```
-chmod +x ./scripts/start_leader_dora_daenon_service.sh
-./scripts/start_leader_dora_daenon_service.sh
-```
-
-If this is successful, you should not have error when calling:
-
-```bash
-sudo systemctl status dora-daemon.service
-```
-
-Return:
-
-```bash
-● dora-daemon.service
-     Loaded: loaded (/etc/systemd/system/dora-daemon.service; enabled; preset: enabled)
-     Active: active (running) since Tue 2024-10-15 00:25:58 CEST; 13min ago
-   Main PID: 256635 (dora)
-      Tasks: 34 (limit: 37374)
-     Memory: 3.2M
-        CPU: 122ms
-     CGroup: /system.slice/dora-daemon.service
-             └─256635 dora daemon --inter-daemon-addr 0.0.0.0:20001
-```
-
----
-
-#### Leader Dora Coordinator Linux Service
-
-- Then you should create a dora coordinator service
-
-```
-chmod +x ./scripts/start_leader_dora_coordinator_service.sh
-./scripts/start_leader_dora_coordinator_service.sh
-```
-
-If this is successful, you should not have error when calling:
-
-```bash
-sudo systemctl status dora-coordinator.service
-```
-
-Return:
-
-```bash
-● dora-coordinator.service
-     Loaded: loaded (/etc/systemd/system/dora-coordinator.service; enabled; preset: enabled)
-     Active: active (running) since Tue 2024-10-15 00:54:12 CEST; 2s ago
-   Main PID: 315394 (dora)
-      Tasks: 34 (limit: 37374)
-     Memory: 3.2M
-        CPU: 62ms
-     CGroup: /system.slice/dora-coordinator.service
-             └─315394 dora coordinator
-
-Oct 15 00:54:12 peter-rog systemd[1]: Started dora-coordinator.service.
-Oct 15 00:54:12 peter-rog bash[315394]: Listening for incoming daemon connection on 53290
 ```
 
 ---

@@ -24,15 +24,19 @@ for event in node:
                 node.send_output("text", pa.array(["open"]))
             elif char == "t":
                 node.send_output("text", pa.array(["close"]))
-            elif char == "y":
-                node.send_output("text", pa.array(["arm forward"]))
-            elif char == "h":
-                node.send_output("text", pa.array(["arm backward"]))
-            elif char == "g":
-                node.send_output("text", pa.array(["arm left"]))
-            elif char == "j":
-                node.send_output("text", pa.array(["arm right"]))
-            elif char == "t":
-                node.send_output("text", pa.array(["arm down"]))
             elif char == "u":
+                node.send_output("text", pa.array(["arm forward"]))
+            elif char == "j":
+                node.send_output("text", pa.array(["arm backward"]))
+            elif char == "h":
+                node.send_output("text", pa.array(["arm left"]))
+            elif char == "k":
+                node.send_output("text", pa.array(["arm right"]))
+            elif char == "y":
+                node.send_output("text", pa.array(["arm down"]))
+            elif char == "i":
                 node.send_output("text", pa.array(["arm up"]))
+            elif char == "v":
+                node.send_output("text", pa.array(["go home"]))
+            elif char == "b":
+                node.send_output("text", pa.array(["save home"]))

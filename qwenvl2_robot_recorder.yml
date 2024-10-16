@@ -5,9 +5,11 @@ nodes:
     _unstable_deploy:
       machine: ec7
     inputs:
-      movec: arm-interpolation/movec
-      movej: arm-interpolation/movej
-      claw: arm-interpolation/claw
+      # movec: arm-interpolation/movec
+      # movej: arm-interpolation/movej
+      # claw: arm-interpolation/claw
+      # save: arm-interpolation/save
+      # go_to: arm-interpolation/go_to
     env:
       ROBOT_IP: 192.168.1.18
 
@@ -44,6 +46,8 @@ nodes:
       - movec
       - movej
       - claw
+      - save
+      - go_to
 
   - id: camera1 # Run on car
     # build: pip install opencv-video-capture
@@ -51,7 +55,7 @@ nodes:
     _unstable_deploy:
       machine: ec7
     inputs:
-      tick: dora/timer/millis/200
+      tick: dora/timer/millis/50
     outputs:
       - image
     env:
@@ -59,7 +63,7 @@ nodes:
       IMAGE_WIDTH: 640
       IMAGE_HEIGHT: 480
       ENCODING: jpeg
-      FLIP: VERTICAL
+      FLIP: BOTH
 
   - id: camera2 # Run on car
     # build: pip install opencv-video-capture
@@ -67,7 +71,7 @@ nodes:
     _unstable_deploy:
       machine: ec7
     inputs:
-      tick: dora/timer/millis/200
+      tick: dora/timer/millis/50
     outputs:
       - image
     env:
@@ -75,7 +79,6 @@ nodes:
       IMAGE_WIDTH: 640
       IMAGE_HEIGHT: 480
       ENCODING: jpeg
-      FLIP: VERTICAL
 
   - id: plot
     # build: |
@@ -94,6 +97,23 @@ nodes:
       IMAGE_WIDTH: 640
       IMAGE_HEIGHT: 480
       RERUN_MEMORY_LIMIT: 25%
+      README: |
+        To control the robot, use the following keys:
+        - w: move forward
+        - s: move backward
+        - a: move left
+        - d: move right
+        - q: stop
+        - r: open gripper
+        - t: close gripper
+        - h: move arm left
+        - k: move arm right
+        - y: move arm down
+        - i: move arm up
+        - u: move arm forward
+        - j: move arm backward
+        - v: go home
+        - b: save home
 
   - id: dora-qwenvl-recorder
     path: llama-factory-recorder
@@ -108,5 +128,5 @@ nodes:
     outputs:
       - text
     env:
-      DEFAULT_QUESTION: Respond with right, left, forward, backward,stop to move to the red line
+      DEFAULT_QUESTION: Respond with arm left, arm right, arm up, arm down, arm forward, arm backward, open, close, or go home to grab the bottle
       LLAMA_FACTORY_ROOT_PATH: /home/peter/Documents/work/LLaMA-Factory
