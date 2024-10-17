@@ -261,3 +261,18 @@ llamafactory-cli train examples/train_lora/qwen2vl_lora_sft.yaml
 ```
 
 ---
+
+No systemctl manual
+
+===
+sudo systemctl stop dora-coordinator.service  
+sudo systemctl disable dora-coordinator.service
+sudo systemctl stop dora-daemon.service  
+sudo systemctl disable dora-daemon.service
+===
+
+LOCAL_IP=$(hostname -I | awk '{print $1}')
+
+dora coordinator &
+dora daemon -c $LOCAL_IP &
+ssh HwHiAiUser@192.168.3.26 dora daemon -c $LOCAL_IP
