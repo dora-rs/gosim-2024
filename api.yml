@@ -1,0 +1,86 @@
+nodes:
+
+  ###############################################
+  # 两个视频输入,被脚本`dora_api_server/node_listener.py`所监听 #
+  ###############################################
+  - id: camera1 # Run on car
+    # build: pip install opencv-video-capture
+    path: opencv-video-capture
+    inputs:
+      tick: dora/timer/millis/20
+    outputs:
+      - image
+    env:
+      CAPTURE_PATH: 0
+      IMAGE_WIDTH: 640
+      IMAGE_HEIGHT: 480
+      # WARN: 暂时不支持其他压缩格式：由于未知原因导致无法解码图像。请查阅 [node_listener.py](dora_api_server/node_listener.py)
+      ENCODING: rgb8
+      FLIP: VERTICAL
+
+  - id: camera2 # Run on car
+    # build: pip install opencv-video-capture
+    path: opencv-video-capture
+    inputs:
+      tick: dora/timer/millis/20
+    outputs:
+      - image
+    env:
+      CAPTURE_PATH: 2
+      IMAGE_WIDTH: 640
+      IMAGE_HEIGHT: 480
+      ENCODING: rgb8
+      FLIP: VERTICAL
+
+  ##########################################################################
+  # 机械臂控制器，接收脚本 `dora_api_server/node_publisher.py` 中 `ArmController` 发布的消息 #
+  ##########################################################################
+  - id: arm # Run on car
+    # build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
+    path: dora-gen72
+#    _unstable_deploy:
+#      machine: ec7
+    inputs:
+      movec: restapi/movec
+      movej: restapi/movej
+      claw: restapi/claw
+      save: restapi/save
+      go_to: restapi/go_to
+#    env:
+#      ROBOT_IP: 192.168.1.18
+
+  ############################################################################
+  # 底盘控制器，接收脚本 `dora_api_server/node_publisher.py` 中 `ChassisController` 发布的消息 #
+  ############################################################################
+  - id: mickrobot_chassis # Run on car
+    # build: wget -nc https://github.com/dora-rs/gosim-2024/releases/download/v0.0.1/robot # cargo install --git https://github.com/lyon-dora/chongyou-car
+    path: robot
+#    _unstable_deploy:
+#      machine: ec7
+    inputs:
+      text: restapi/chassis
+
+  ##############################################
+  # Restful API由此脚本启动，并一并拉起节点监听和输出 #
+  ##############################################
+  - id: restapi
+#    path: python -m sanic dora_api_server.app.app --host=0.0.0.0 --port=11451
+    path: ./dora_api_server/app.py
+    inputs:
+      image_1:
+        source: camera1/image
+        queue_size: 1
+      image_2:
+        source: camera2/image
+        queue_size: 1
+    outputs:
+      - movec
+      - movej
+      - claw
+      - save
+      - go_to
+      - chassis
+#    env:
+#      IMAGE_WIDTH: 640
+#      IMAGE_HEIGHT: 480
+#      RERUN_MEMORY_LIMIT: 25%

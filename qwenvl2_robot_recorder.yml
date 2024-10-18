@@ -48,6 +48,7 @@ nodes:
       - claw
       - save
       - go_to
+      - prompt
 
   - id: camera1 # Run on car
     # build: pip install opencv-video-capture
