@@ -48,7 +48,7 @@ class Action(Enum):
     RIGHT = ("arm right", "movec", [0, -0.04, 0, 0, 0, 0, 0.1])
     UP = ("arm up", "movec", [0, 0, 0.04, 0, 0, 0, 0.1])
     DOWN = ("arm down", "movec", [0, 0, -0.04, 0, 0, 0, 0.1])
-    CLOSE = ("close", "claw", [50])
+    CLOSE = ("close", "claw", [0])
     OPEN = ("open", "claw", [100])
     # STOP = ("stop", "stop", [])
     SAVE = ("save", "save", [])
@@ -85,7 +85,7 @@ for event in node:
                                 ]
                             ),
                         )  # TODO: Remove this
-                        node.send_output(
-                            "go_to", pa.array(["home"])
-                        )  # TODO: Remove this
+                        # node.send_output(
+                        #     "go_to", pa.array(["home"])
+                        # )  # TODO: Remove this
                     break
