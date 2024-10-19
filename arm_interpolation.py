@@ -75,17 +75,17 @@ for event in node:
             for action in Action:
                 if action.value[0] in text:
                     node.send_output(action.value[1], pa.array(action.value[2]))
-                    if action.value[0] == "close" and not go_to_box:
-                        already_close = True
-                        node.send_output(
-                            "prompt",
-                            pa.array(
-                                [
-                                    "Respond with left, right, forward, backward, open, close to drop the bottle in the box"
-                                ]
-                            ),
-                        )  # TODO: Remove this
-                        # node.send_output(
-                        #     "go_to", pa.array(["home"])
-                        # )  # TODO: Remove this
-                    break
+                    # if action.value[0] == "close" and not go_to_box:
+                    #     already_close = True
+                    #     node.send_output(
+                    #         "prompt",
+                    #         pa.array(
+                    #             [
+                    #                 "Respond with left, right, forward, backward, open, close to drop the bottle in the box"
+                    #             ]
+                    #         ),
+                    #     )  # TODO: Remove this
+                    #     # node.send_output(
+                    #     #     "go_to", pa.array(["home"])
+                    #     # )  # TODO: Remove this
+                    # break
